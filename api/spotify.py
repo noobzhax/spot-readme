@@ -44,7 +44,7 @@ def refreshToken():
         "refresh_token": SPOTIFY_REFRESH_TOKEN,
     }
 
-    headers = {"Authorization": "Basic {}".format(getAuth())}
+    headers = {"Authorization": f"Basic {getAuth()}"}
     response = requests.post(
         REFRESH_TOKEN_URL, data=data, headers=headers).json()
 
@@ -97,8 +97,7 @@ def barGen(barCount):
 
 def gradientGen(albumArtURL, color_count):
     colortheif = ColorThief(BytesIO(requests.get(albumArtURL).content))
-    palette = colortheif.get_palette(color_count)
-    return palette
+    return colortheif.get_palette(color_count)
 
 
 def getTemplate():
@@ -120,7 +119,7 @@ def makeSVG(data, background_color, border_color):
     contentBar = "".join(["<div class='bar'></div>" for _ in range(barCount)])
     barCSS = barGen(barCount)
 
-    if not "is_playing" in data:
+    if "is_playing" not in data:
         #contentBar = "" #Shows/Hides the EQ bar if no song is currently playing
         currentStatus = "Recently played:"
         recentPlays = get(RECENTLY_PLAYING_URL)
